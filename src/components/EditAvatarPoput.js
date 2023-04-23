@@ -9,10 +9,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     avatarRef.current.value = "";
   }, [isOpen]);
 
-  function handleAvatarChange(evt) {
-    avatarRef.value = evt.target.value;
-  }
-
   function handleSubmit(evt) {
     evt.preventDefault();
 
@@ -38,7 +34,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
         className="popup__input popup__input-avatar"
         id="avatar"
         name="avatar"
-        onChange={handleAvatarChange}
         required
       />
       <span className="popup__input-error avatar-error"></span>

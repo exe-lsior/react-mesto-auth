@@ -21,7 +21,7 @@ function PopupWithForm({
           name={`${name}_form`}
           onSubmit={onSubmit}>
           {children}
-          <button className="popup__button" type="submit" onClick={onSubmit}>
+          <button className="popup__button" type="submit">
             {isLoading ? isLoadingText : buttonText}
           </button>
         </form>

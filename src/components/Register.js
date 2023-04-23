@@ -22,33 +22,31 @@ function Register({ onRegister }) {
   };
 
   return (
-    <>
-      <div className="auth">
-        <h1 className="auth__title">Регистрация</h1>
-        <form className="auth__form" onSubmit={handleSubmit}>
-          <input
-            className="auth__input"
-            placeholder="Email"
-            name="email"
-            type="email"
-            onChange={handleChange}
-            value={data.email || ""}
-          />
-          <input
-            className="auth__input"
-            placeholder="Пароль"
-            name="password"
-            type="password"
-            onChange={handleChange}
-            value={data.password || ""}
-          />
-          <button className="auth__button">Зарегистрироваться</button>
-        </form>
-        <Link to={"/sign-in"} className="auth__link">
-          Уже зарегестрированы? Войти
-        </Link>
-      </div>
-    </>
+    <div className="auth">
+      <h1 className="auth__title">Регистрация</h1>
+      <form className="auth__form" onSubmit={handleSubmit}>
+        <input
+          className="auth__input"
+          placeholder="Email"
+          name="email"
+          type="email"
+          onChange={handleChange}
+          value={data.email || ""}
+        />
+        <input
+          className="auth__input"
+          placeholder="Пароль"
+          name="password"
+          type="password"
+          onChange={handleChange}
+          value={data.password || ""}
+        />
+        <button className="auth__button">Зарегистрироваться</button>
+      </form>
+      <Link to={"/sign-in"} className="auth__link">
+        Уже зарегестрированы? Войти
+      </Link>
+    </div>
   );
 }
 

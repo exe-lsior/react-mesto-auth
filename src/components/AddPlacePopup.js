@@ -1,30 +1,30 @@
 import React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm.js";
 
 function AddPlacePopup({ isOpen, onClose, onAddCard, isLoading }) {
-  const cardNameRef = useRef();
-  const cardLinkRef = useRef();
+  const [cardName, setCardName] = React.useState("");
+  const [cardLink, setCardLink] = React.useState("");
 
   useEffect(() => {
-    cardNameRef.current.value = "";
-    cardLinkRef.current.value = "";
+    setCardName('');
+    setCardLink('');
   }, [isOpen]);
 
   function handleCardNameChange(evt) {
-    cardNameRef.value = evt.target.value;
+    setCardName(evt.target.value);
   }
 
   function handleCardLinkChange(evt) {
-    cardLinkRef.value = evt.target.value;
+    setCardLink(evt.target.value);
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
     onAddCard({
-      name: cardNameRef.current.value,
-      link: cardLinkRef.current.value,
+      name: cardName,
+      link: cardLink,
     });
   }
 
@@ -44,7 +44,7 @@ function AddPlacePopup({ isOpen, onClose, onAddCard, isLoading }) {
         className="popup__input"
         name="elementTitle"
         onChange={handleCardNameChange}
-        ref={cardNameRef}
+        value={cardName || ""}
         minLength={2}
         maxLength={30}
         required
@@ -56,7 +56,7 @@ function AddPlacePopup({ isOpen, onClose, onAddCard, isLoading }) {
         className="popup__input"
         name="elementLink"
         onChange={handleCardLinkChange}
-        ref={cardLinkRef}
+        value={cardLink || ""}
         required
       />
       <span className="popup__input-error description-error"></span>
