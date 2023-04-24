@@ -54,14 +54,6 @@ export default class Api {
     }).then(this._checkResponse);
   }
 
-  /*removeLike(id) {
-      return fetch(`${this._url}/cards/${id}/likes`, {
-          method: 'DELETE',
-          headers: this._headers,
-      })
-      .then(this._checkResponse)
-  }*/
-
   editAvatar(avatar) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",

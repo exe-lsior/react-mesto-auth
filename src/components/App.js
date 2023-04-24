@@ -14,6 +14,7 @@ import Login from "./Login.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import * as auth from "../utils/auth";
 import InfoTooltip from "./InfoTooltip.js";
+import usePopupClose from "../utils/hooks/usePopupClose.js";
 
 function App() {
   //стейты всех попапов
@@ -35,6 +36,10 @@ function App() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
+
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isImagePopupOpen || isTooltipOpen
+
+  usePopupClose(isOpen, closeAllPopups);
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
