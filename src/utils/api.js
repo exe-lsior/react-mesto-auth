@@ -7,6 +7,7 @@ export default class Api {
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
+      credentials: 'include',
       headers: this._headers,
     }).then(this._checkResponse);
   }
@@ -14,6 +15,7 @@ export default class Api {
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       method: "GET",
+      credentials: 'include',
       headers: this._headers,
     }).then(this._checkResponse);
   }
@@ -21,6 +23,7 @@ export default class Api {
   editProfile(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
@@ -32,6 +35,7 @@ export default class Api {
   addNewElement(cardData) {
     return fetch(`${this._url}/cards`, {
       method: "POST",
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         name: cardData.name,
@@ -43,13 +47,15 @@ export default class Api {
   deleteElement(id) {
     return fetch(`${this._url}/cards/${id}`, {
       method: "DELETE",
+      credentials: 'include',
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
   setLike(id, isLiked) {
     return fetch(`${this._url}/cards/${id}/likes`, {
-      method: `${isLiked ? "PUT" : "DELETE"}`,
+      method: isLiked ? "PUT" : "DELETE",
+      credentials: 'include',
       headers: this._headers,
     }).then(this._checkResponse);
   }
@@ -57,6 +63,7 @@ export default class Api {
   editAvatar(avatar) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         avatar: avatar,
@@ -74,9 +81,9 @@ export default class Api {
 }
 
 export const api = new Api({
-  url: "https://mesto.nomoreparties.co/v1/cohort-59",
+  url: "https://api.mestechko.nomoredomains.rocks",
   headers: {
-    authorization: "f816c902-5e03-40d7-836c-f5bef20ae8ea",
+    'authorization': `Bearer ${localStorage.getItem('jwt')}`,
     "Content-Type": "application/json",
   },
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { api } from "../utils/api.js";
 import ImagePopup from "./ImagePopup.js";
 import Header from "./Header.js";
@@ -26,9 +26,9 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState({});
 
-  const [cards, setCards] = useState([]);
-
   const [selectedCard, setCardSelected] = useState({ name: "", link: "" });
+
+  const [cards, setCards] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,16 +50,37 @@ function App() {
           if (response) {
             setUserEmail(response.data.email);
             setLoggedIn(true);
-            navigate("/main");
+            navigate("/");
           }
         })
         .catch((error) => {
-          setLoggedIn(false);
-          navigate("/sign-up");
           console.log(error);
         });
     }
   }, [navigate]);
+
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((response) => {
+        setCurrentUser(response.data);
+        setLoggedIn(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((response) => {
+        setCards(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   function onLogin(password, email) {
     auth
@@ -97,29 +118,6 @@ function App() {
     navigate("/sign-in");
     setLoggedIn(false);
   }
-
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then((response) => {
-        setCurrentUser(response);
-        setLoggedIn(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((response) => {
-        setCards(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   //функции открытия
   function handleEditProfileClick() {
@@ -160,6 +158,7 @@ function App() {
     api
       .setLike(card._id, !isLiked)
       .then((newCard) => {
+        console.log(newCard)
         setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))
         );
@@ -189,7 +188,7 @@ function App() {
     api
       .editProfile(info)
       .then((response) => {
-        setCurrentUser(response);
+        setCurrentUser(response.data);
         closeAllPopups();
       })
       .catch((error) => {
@@ -204,7 +203,8 @@ function App() {
     api
       .editAvatar(avatar)
       .then((response) => {
-        setCurrentUser(response);
+        setCurrentUser(response.data.avatar);
+        console.log(response.data.avatar);
         closeAllPopups();
       })
       .catch((error) => {
@@ -237,27 +237,17 @@ function App() {
           userEmail={userEmail}
         />
         <Routes>
-          <Route
-            path="/"
-            element={
-              isLoggedIn ? (
-                <Navigate to="/main" replace />
-              ) : (
-                <Navigate to="/sign-in" replace />
-              )
-            }
-          />
           <Route path="/sign-in" element={<Login onLogin={onLogin} />} />
           <Route
             path="/sign-up"
             element={<Register onRegister={onRegister} />}
           />
           <Route
-            path="/main"
+            path="/"
             element={
               <ProtectedRoute
-                element={Main}
                 isLoggedIn={isLoggedIn}
+                element={Main}
                 onEditAvatar={handleEditAvatarClick}
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}

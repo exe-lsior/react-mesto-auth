@@ -7,7 +7,7 @@ function Header({ onSignOut, userEmail }) {
       <img className="header__logo" src={logo} alt="место" />
       <Routes>
         <Route
-          path="/main"
+          path="/"
           element={
             <div className="header__container">
               <p className="header__email">{userEmail}</p>
