@@ -24,16 +24,18 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
-  const [currentUser, setCurrentUser] = useState({});
-
   const [selectedCard, setCardSelected] = useState({ name: "", link: "" });
+
+  const [currentUser, setCurrentUser] = useState({});
 
   const [cards, setCards] = useState([]);
 
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
 
@@ -75,7 +77,7 @@ function App() {
     api
       .getInitialCards()
       .then((response) => {
-        setCards(response.data);
+        setCards(response);
       })
       .catch((error) => {
         console.log(error);
@@ -203,8 +205,7 @@ function App() {
     api
       .editAvatar(avatar)
       .then((response) => {
-        setCurrentUser(response.data.avatar);
-        console.log(response.data.avatar);
+        setCurrentUser(response);
         closeAllPopups();
       })
       .catch((error) => {
